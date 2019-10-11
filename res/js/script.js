@@ -26,7 +26,12 @@ $(function() {
     $("#profile-container").removeClass("active");
     $("#courses-button").addClass("active");
     $("#profile-button").removeClass("active");
+    //TASK 4 Kursuse lisamise vorm tuleb ja läheb pluss nupule klikates
+    $("#add-course-button").click(function() {
+      $("#add-course").toggle();
+       });
   });
+
 
   //Profile nupu peale vajutades muudab profiili nähtavaks
   //Muudab nupude ja tabeli/profiili konteineri klassi
@@ -36,6 +41,8 @@ $(function() {
     $("#courses-button").removeClass("active");
     $("#profile-button").addClass("active");
   });
+
+
 
   //TASK 2 osa, kus luuakse dünaamiliselt tabeli elemendid.
   function init() {
