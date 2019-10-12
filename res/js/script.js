@@ -21,54 +21,6 @@ $(function() {
   //kutsuttakse välja init funktsioon
   init();
 
-  //TASK 3
-  //Courses nupu peale vajutades muudab tabeli nähtavaks
-  //Muudab nupude ja tabeli/profiili konteineri klassi
-  $("#courses-button").click(function() {
-    $("#courses-container").addClass("active");
-    $("#profile-container").removeClass("active");
-    $("#courses-button").addClass("active");
-    $("#profile-button").removeClass("active");
-    //TASK 4 Kursuse lisamise vorm tuleb ja läheb pluss nupule klikates
-    $("#add-course-button").click(function() {
-      $("#add-course").toggle();
-    });
-
-    //TASK 5 Tabelisse andmete lisamine pärast save nuppu vajutust
-    $("#save-course").click(function() {
-      avgGrade = 0;
-      let titleInput = $("#title").val();
-      let semesterInput = parseInt($("#semester").val());
-      let gradeInput = parseInt($("#grade").val());
-
-      if (titleInput === "") {
-        alert("Täida puuduvad väljad");
-      } else {
-        addToTable(titleInput, semesterInput, gradeInput);
-        $(".input").val("");
-      }
-      for (let i = 0; i < courses.length; i++) {
-        avgGrade += GPA(courses[i].grade);
-      }
-      $("#gpa strong").text(avgGrade / courses.length);
-    });
-  });
-
-  //Cancel course
-  $("#cancel-course").click(function() {
-    $(".input").val("");
-    $("#add-course").toggle();
-  });
-
-  //Profile nupu peale vajutades muudab profiili nähtavaks
-  //Muudab nupude ja tabeli/profiili konteineri klassi
-  $("#profile-button").click(function() {
-    $("#courses-container").removeClass("active");
-    $("#profile-container").addClass("active");
-    $("#courses-button").removeClass("active");
-    $("#profile-button").addClass("active");
-  });
-
   //TASK 2 osa, kus luuakse dünaamiliselt tabeli elemendid.
   function init() {
     for (let i = 0; i < courses.length; i++) {
@@ -88,6 +40,50 @@ $(function() {
     }
     $("#gpa strong").text(avgGrade / courses.length);
   }
+
+  //TASK 3
+  //Courses nupu peale vajutades muudab tabeli nähtavaks
+  //Muudab nupude ja tabeli/profiili konteineri klassi
+  $("#courses-button").click(function() {
+    $("#courses-container").addClass("active");
+    $("#profile-container").removeClass("active");
+    $("#courses-button").addClass("active");
+    $("#profile-button").removeClass("active");
+  });
+
+  //TASK 3 Profile nupu peale vajutades muudab profiili nähtavaks
+  //Muudab nupude ja tabeli/profiili konteineri klassi
+  $("#profile-button").click(function() {
+    $("#courses-container").removeClass("active");
+    $("#profile-container").addClass("active");
+    $("#courses-button").removeClass("active");
+    $("#profile-button").addClass("active");
+  });
+
+  //TASK 4 Kursuse lisamise vorm tuleb ja läheb pluss nupule klikates
+  $("#add-course-button").click(function() {
+    $("#add-course").toggle();
+  });
+
+  //TASK 5 Tabelisse andmete lisamine pärast save nuppu vajutust
+  $("#save-course").click(function() {
+    avgGrade = 0;
+    let titleInput = $("#title").val();
+    let semesterInput = parseInt($("#semester").val());
+    let gradeInput = parseInt($("#grade").val());
+
+    if (titleInput === "") {
+      alert("Täida puuduvad väljad");
+    } else {
+      addToTable(titleInput, semesterInput, gradeInput);
+      $(".input").val("");
+    }
+    for (let i = 0; i < courses.length; i++) {
+      avgGrade += GPA(courses[i].grade);
+    }
+    $("#gpa strong").text(avgGrade / courses.length);
+  });
+
   // TASK 5 Tabelisse uue rea lisamise funktsioon, pea-aegu sama mis init(), aga ainult viimase rea jaoks
   function addToTable(title, semester, grade) {
     courses.push(new Course(title, semester, grade));
@@ -104,7 +100,7 @@ $(function() {
     $("#courses tbody").append(tr);
   }
 
-  //funktsioon, mis määrab ära, mis on 4 palli süstemis hinne
+  //TASK 5 funktsioon, mis määrab ära, mis on 4 palli süstemis hinne
   function GPA(avgGra) {
     if (avgGra > 90) {
       return 4;
@@ -120,4 +116,10 @@ $(function() {
       return 0;
     }
   }
+
+  //TASK 6 Cancel course
+  $("#cancel-course").click(function() {
+    $(".input").val("");
+    $("#add-course").toggle();
+  });
 });
