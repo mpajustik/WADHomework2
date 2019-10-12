@@ -15,6 +15,9 @@ $(function() {
     new Course("Estonian language Level A2", 2, 65)
   ];
 
+  //muutuja keskmise hinde salvestamiseks
+  let avgGrade = 0;
+
   //kutsuttakse välja init funktsioon
   init();
 
@@ -29,22 +32,32 @@ $(function() {
     //TASK 4 Kursuse lisamise vorm tuleb ja läheb pluss nupule klikates
     $("#add-course-button").click(function() {
       $("#add-course").toggle();
-       });
-	//TASK 5 Tabelisse andmete lisamine pärast save nuppu vajutust
+    });
+
+    //TASK 5 Tabelisse andmete lisamine pärast save nuppu vajutust
     $("#save-course").click(function() {
-	  courses.push(new Course($("#title").val(),$("#semester").val(),$("#grade").val()));
-	  addToTable();
-	  $(".input").val("");
-        $("#add-course").toggle();
-	  calculateGPA();
-	});
-      $("#cancel-course").click(function() {
-          $(".input").val("");
-          $("#add-course").toggle();
-          });
+      avgGrade = 0;
+      let titleInput = $("#title").val();
+      let semesterInput = parseInt($("#semester").val());
+      let gradeInput = parseInt($("#grade").val());
 
+      if (titleInput === "") {
+        alert("Täida puuduvad väljad");
+      } else {
+        addToTable(titleInput, semesterInput, gradeInput);
+        $(".input").val("");
+      }
+      for (let i = 0; i < courses.length; i++) {
+        avgGrade += GPA(courses[i].grade);
+      }
+      $("#gpa strong").text(avgGrade / courses.length);
+    });
+
+    $("#cancel-course").click(function() {
+      $(".input").val("");
+      $("#add-course").toggle();
+    });
   });
-
 
   //Profile nupu peale vajutades muudab profiili nähtavaks
   //Muudab nupude ja tabeli/profiili konteineri klassi
@@ -54,8 +67,6 @@ $(function() {
     $("#courses-button").removeClass("active");
     $("#profile-button").addClass("active");
   });
-
-
 
   //TASK 2 osa, kus luuakse dünaamiliselt tabeli elemendid.
   function init() {
@@ -72,45 +83,40 @@ $(function() {
       tr.append(tdGrade);
 
       $("#courses tbody").append(tr);
+      avgGrade += GPA(courses[i].grade);
     }
+    $("#gpa strong").text(avgGrade / courses.length);
   }
   // TASK 5 Tabelisse uue rea lisamise funktsioon, pea-aegu sama mis init(), aga ainult viimase rea jaoks
-  function addToTable() {
-	for (let i = courses.length-1; i < courses.length; i++) {
-      let tr = $("<tr></tr>");
-      let tdId = $("<td></td>").text(i + 1);
-      let tdTitle = $("<td></td>").text(courses[i].title);
-      let tdSemester = $("<td></td>").text(courses[i].semester);
-      let tdGrade = $("<td></td>").text(courses[i].grade);
+  function addToTable(title, semester, grade) {
+    courses.push(new Course(title, semester, grade));
+    let tr = $("<tr></tr>");
+    let tdId = $("<td></td>").text(courses.length);
+    let tdTitle = $("<td></td>").text(title);
+    let tdSemester = $("<td></td>").text(semester);
+    let tdGrade = $("<td></td>").text(grade);
 
-      tr.append(tdId);
-      tr.append(tdTitle);
-      tr.append(tdSemester);
-      tr.append(tdGrade);
-
-      $("#courses tbody").append(tr);
-	}
+    tr.append(tdId);
+    tr.append(tdTitle);
+    tr.append(tdSemester);
+    tr.append(tdGrade);
+    $("#courses tbody").append(tr);
   }
-  // TASK 5 Keskmise hinde arvutamise funktsioon
-  function calculateGPA() {
-	  var sum = 0;
-		$.each(courses.grade,function(){
-			var gp = 0
-			if (this > 90){
-				gp = 4;
-			} else if (this > 80) {
-				gp = 3;
-			} else if (this > 70) {
-				gp = 2;
-			} else if (this > 60) {
-				gp = 1;
-			} else if (this > 50) {
-				gp = 0.5;
-			} else {
-				gp = 0;
-			}
-			sum+=gp});
-	  var gpa = sum/courses.length;
-	  $("#gpa").text(gpa);
+
+  //funktsioon, mis määrab ära, mis on 4 palli süstemis hinne
+  function GPA(avgGra) {
+    if (avgGra > 90) {
+      return 4;
+    } else if (avgGra > 80) {
+      return 3;
+    } else if (avgGra > 70) {
+      return 2;
+    } else if (avgGra > 60) {
+      return 1;
+    } else if (avgGra > 50) {
+      return 0.5;
+    } else {
+      return 0;
+    }
   }
 });
