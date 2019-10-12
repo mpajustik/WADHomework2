@@ -30,6 +30,13 @@ $(function() {
     $("#add-course-button").click(function() {
       $("#add-course").toggle();
        });
+	//TASK 5 Tabelisse andmete lisamine pärast save nuppu vajutust
+    $("#save-course").click(function() {
+	  courses.push(new Course($("#title").val(),$("#semester").val(),$("#grade").val()));
+	  addToTable();
+	  $(".input").val("");
+	  calculateGPA();
+	});
   });
 
 
@@ -60,5 +67,44 @@ $(function() {
 
       $("#courses tbody").append(tr);
     }
+  }
+  // TASK 5 Tabelisse uue rea lisamise funktsioon, pea-aegu sama mis init(), aga ainult viimase rea jaoks
+  function addToTable() {
+	for (let i = courses.length-1; i < courses.length; i++) {
+      let tr = $("<tr></tr>");
+      let tdId = $("<td></td>").text(i + 1);
+      let tdTitle = $("<td></td>").text(courses[i].title);
+      let tdSemester = $("<td></td>").text(courses[i].semester);
+      let tdGrade = $("<td></td>").text(courses[i].grade);
+
+      tr.append(tdId);
+      tr.append(tdTitle);
+      tr.append(tdSemester);
+      tr.append(tdGrade);
+
+      $("#courses tbody").append(tr);
+	}
+  }
+  // TASK 5 Keskmise hinde arvutamise funktsioon
+  function calculateGPA() {
+	  var sum = 0;
+		$.each(courses.grade,function(){
+			var gp = 0
+			if (this > 90){
+				gp = 4;
+			} else if (this > 80) {
+				gp = 3;
+			} else if (this > 70) {
+				gp = 2;
+			} else if (this > 60) {
+				gp = 1;
+			} else if (this > 50) {
+				gp = 0.5;
+			} else {
+				gp = 0;
+			}
+			sum+=gp});
+	  var gpa = sum/courses.length;
+	  $("#gpa").text(gpa);
   }
 });
