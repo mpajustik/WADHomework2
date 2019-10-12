@@ -35,8 +35,14 @@ $(function() {
 	  courses.push(new Course($("#title").val(),$("#semester").val(),$("#grade").val()));
 	  addToTable();
 	  $(".input").val("");
+        $("#add-course").toggle();
 	  calculateGPA();
 	});
+      $("#cancel-course").click(function() {
+          $(".input").val("");
+          $("#add-course").toggle();
+          });
+
   });
 
 
