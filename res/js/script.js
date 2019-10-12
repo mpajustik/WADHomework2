@@ -38,7 +38,7 @@ $(function() {
       $("#courses tbody").append(tr);
       avgGrade += GPA(courses[i].grade);
     }
-    $("#gpa strong").text(avgGrade / courses.length);
+    $("#gpa strong").text((avgGrade / courses.length).toFixed(2));
   }
 
   //TASK 3
@@ -81,7 +81,7 @@ $(function() {
     for (let i = 0; i < courses.length; i++) {
       avgGrade += GPA(courses[i].grade);
     }
-    $("#gpa strong").text(avgGrade / courses.length);
+    $("#gpa strong").text((avgGrade / courses.length).toFixed(2));
   });
 
   // TASK 5 Tabelisse uue rea lisamise funktsioon, pea-aegu sama mis init(), aga ainult viimase rea jaoks
