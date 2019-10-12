@@ -72,7 +72,7 @@ $(function() {
     let semesterInput = parseInt($("#semester").val());
     let gradeInput = parseInt($("#grade").val());
 
-    if (titleInput === "") {
+    if (!titleInput ||!semesterInput || !gradeInput) {
       alert("Täida puuduvad väljad");
     } else {
       addToTable(titleInput, semesterInput, gradeInput);
