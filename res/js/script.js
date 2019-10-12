@@ -15,6 +15,9 @@ $(function() {
     new Course("Estonian language Level A2", 2, 65)
   ];
 
+  //keskmise hinde väärtus ja oluline on, et see oleks global scopes.
+  let avgGrade = 0;
+
   //kutsuttakse välja init funktsioon
   init();
 
@@ -29,9 +32,8 @@ $(function() {
     //TASK 4 Kursuse lisamise vorm tuleb ja läheb pluss nupule klikates
     $("#add-course-button").click(function() {
       $("#add-course").toggle();
-       });
+    });
   });
-
 
   //Profile nupu peale vajutades muudab profiili nähtavaks
   //Muudab nupude ja tabeli/profiili konteineri klassi
@@ -42,7 +44,22 @@ $(function() {
     $("#profile-button").addClass("active");
   });
 
-
+  //funktsioon, mis määrab ära, mis on 4 palli süstemis hinne
+  function GPA(avgGra) {
+    if (avgGra > 90) {
+      return 4;
+    } else if (avgGra > 80) {
+      return 3;
+    } else if (avgGra > 70) {
+      return 2;
+    } else if (avgGra > 60) {
+      return 1;
+    } else if (avgGra > 50) {
+      return 0.5;
+    } else {
+      return 0;
+    }
+  }
 
   //TASK 2 osa, kus luuakse dünaamiliselt tabeli elemendid.
   function init() {
@@ -59,6 +76,13 @@ $(function() {
       tr.append(tdGrade);
 
       $("#courses tbody").append(tr);
+
+      //loopimise käigus arvutab keskmise hinde
+      //keskmise hinde arvutamisel kasutab funktsiooni GPA ja muudab tulemuse 4 hindepalli skaalaks
+      avgGrade += GPA(courses[i].grade);
     }
+
+    //sisestab profiili alla keskmise hinde
+    $("#gpa strong").text(avgGrade / courses.length);
   }
 });
