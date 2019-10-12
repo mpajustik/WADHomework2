@@ -52,11 +52,12 @@ $(function() {
       }
       $("#gpa strong").text(avgGrade / courses.length);
     });
+  });
 
-    $("#cancel-course").click(function() {
-      $(".input").val("");
-      $("#add-course").toggle();
-    });
+  //Cancel course
+  $("#cancel-course").click(function() {
+    $(".input").val("");
+    $("#add-course").toggle();
   });
 
   //Profile nupu peale vajutades muudab profiili nähtavaks
