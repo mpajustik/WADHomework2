@@ -74,7 +74,13 @@ $(function() {
 
     if (!titleInput ||!semesterInput || !gradeInput) {
       alert("Täida puuduvad väljad");
-    } else {
+    } else if (semesterInput < 1 ){
+	  alert("Semestri number ei saa olla väiksem kui 1.");
+	} else if ( semesterInput > 8){
+	  alert("Semestri number ei saa olla suurem kui 8.");
+	} else if (gradeInput < 0 || gradeInput > 100){
+	  alert("Kursuse hinne peab kuuluma vahemikku 0-100.");
+	} else {
       addToTable(titleInput, semesterInput, gradeInput);
       $(".input").val("");
     }
