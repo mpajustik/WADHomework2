@@ -5,7 +5,13 @@ $(function() {
   //TASK 2 tegin kaks faili Course.js ja User.js mida kutsun välja index.html-s
   //loon uue User objekti
   //loon Array 4 objektiga
-  var user = new User();
+  var user = new User(
+    "Margarita",
+    "Jones",
+    "24/12/1999",
+    "Software Engineering",
+    2.4
+  );
 
   //loome  array milles on Course objektid, mis saadakse Course.js lehelt.
   var courses = [
@@ -38,6 +44,9 @@ $(function() {
       $("#courses tbody").append(tr);
       avgGrade += GPA(courses[i].grade);
     }
+    $("#name").text(user.firstname + " " + user.lastname);
+    $("#birthdate").text(user.birthdate);
+    $("#faculty").text(user.faculty);
     $("#gpa strong").text((avgGrade / courses.length).toFixed(2));
   }
 
@@ -72,15 +81,15 @@ $(function() {
     let semesterInput = parseInt($("#semester").val());
     let gradeInput = parseInt($("#grade").val());
 
-    if (!titleInput ||!semesterInput || !gradeInput) {
+    if (!titleInput || !semesterInput || !gradeInput) {
       alert("Täida puuduvad väljad");
-    } else if (semesterInput < 1 ){
-	  alert("Semestri number ei saa olla väiksem kui 1.");
-	} else if ( semesterInput > 8){
-	  alert("Semestri number ei saa olla suurem kui 8.");
-	} else if (gradeInput < 0 || gradeInput > 100){
-	  alert("Kursuse hinne peab kuuluma vahemikku 0-100.");
-	} else {
+    } else if (semesterInput < 1) {
+      alert("Semestri number ei saa olla väiksem kui 1.");
+    } else if (semesterInput > 8) {
+      alert("Semestri number ei saa olla suurem kui 8.");
+    } else if (gradeInput < 0 || gradeInput > 100) {
+      alert("Kursuse hinne peab kuuluma vahemikku 0-100.");
+    } else {
       addToTable(titleInput, semesterInput, gradeInput);
       $(".input").val("");
     }
